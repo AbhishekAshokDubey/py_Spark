@@ -1,3 +1,5 @@
 # py_Spark
 
-https://spark.apache.org/docs/1.6.0/api/python/_modules/pyspark/mllib/tree.html
+https://spark.apache.org/docs/2.1.0/ml-classification-regression.html
+https://spark.apache.org/docs/2.1.0/ml-features.html
+https://spark.apache.org/docs/2.1.0/ml-pipeline.html
