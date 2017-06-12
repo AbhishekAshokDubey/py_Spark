@@ -34,113 +34,36 @@ conf.set("spark.files.fetchTimeout","36000000s")
 sc = ps.SparkContext(conf=conf)
 
 f_schema = StructType([
-StructField("_c0",LongType(),True),
-StructField("WellEventID",IntegerType(),True),
-StructField("WellStartTime",LongType(),True),
-StructField("WellEndTime",LongType(),True),
-StructField("WellName",StringType(),True),
-StructField("Client",StringType(),True),
-StructField("MobileHubID",StringType(),True),
-StructField("MTID",StringType(),True),
-StructField("FracCATVanSerial",StringType(),True),
-StructField("Crew",StringType(),True),
-StructField("AcqTime",LongType(),True),
-StructField("PumpID",IntegerType(),True),
-StructField("DischargePressure",IntegerType(),True),
-StructField("PumpRate",DoubleType(),True),
-StructField("ThrottleAct",IntegerType(),True),
-StructField("EnginePercentLoad",IntegerType(),True),
-StructField("EngineBoostPressure",DoubleType(),True),
-StructField("EngineFuelPressure",DoubleType(),True),
-StructField("EngineFuelRate",DoubleType(),True),
-StructField("EngineOilPressure",DoubleType(),True),
-StructField("EngineCoolantTemp",IntegerType(),True),
-StructField("EngineVoltage",DoubleType(),True),
-StructField("TransLockupPressure",DoubleType(),True),
-StructField("TransConverterTemp",IntegerType(),True),
-StructField("TransSumpTemp",IntegerType(),True),
-StructField("TransMainOilPressure",DoubleType(),True),
-StructField("TransFilterInPressure",DoubleType(),True),
-StructField("TransFilterOutPressure",DoubleType(),True),
-StructField("PowerEndOilTemp",IntegerType(),True),
-StructField("PowerEndOilPressure",DoubleType(),True),
-StructField("PowerEndStrokeCount",IntegerType(),True),
-StructField("FluidEndSuctionPressure",DoubleType(),True),
-StructField("FluidEndSuctionDampChargePressure",DoubleType(),True),
-StructField("InstantIdle",StringType(),True),
-StructField("LockupInhibit",StringType(),True),
-StructField("EngineWarmup",StringType(),True),
-StructField("TransmissionWarmup",StringType(),True),
-StructField("PressureTest",StringType(),True),
-StructField("PrimeUp",StringType(),True),
-StructField("PumpBrake",StringType(),True),
-StructField("SensorFailures",DoubleType(),True),
-StructField("WarningsShutdowns",DoubleType(),True),
-StructField("EngineHours",DoubleType(),True),
-StructField("EngineGARState",StringType(),True),
-StructField("Gear",DoubleType(),True),
-StructField("AutoShutdownControl",DoubleType(),True),
-StructField("DischargePSIRange",DoubleType(),True),
-StructField("EngineType",DoubleType(),True),
-StructField("PowerEndType",DoubleType(),True),
-StructField("TransmissionType",DoubleType(),True),
-StructField("FluidEndSize",DoubleType(),True),
-StructField("ThrottleSetpoint",IntegerType(),True),
-StructField("PressureSetpoint",IntegerType(),True),
-StructField("SubComponent",StringType(),True),
-StructField("failutc",DoubleType(),True),
-StructField("failed_folder",IntegerType(),True)])
+StructField("c1",LongType(),True),
+StructField("c2",IntegerType(),True),
+StructField("c3",LongType(),True),
+StructField("c4",StringType(),True),
+StructField("c5",StringType(),True),
+StructField("c6",StringType(),True),
+StructField("c7",DoubleType(),True),
+StructField("c8",IntegerType(),True)])
 
 sqlContext = SQLContext(sc)
-data_path = "gs://abhi-ml/data/phm_data_final"
+data_path = "gs://bucket/path"
 data = sqlContext.read.format('com.databricks.spark.csv').options(header='true').schema(f_schema).load(data_path)
 #data.cache()
 
-all_classes = ["Turbo", "Fuel - Injectors", "Cylinder block - Liner",
-                "Engine - Gaskets", "Exahust - Piping", "Engine - Control - ECM",
-                "Engine - Hydraulic - Starter", "Lubrication - Pump", "Engine - Sensors/switches",
-                "Exhaust - Manifold", "Cylinder block", "Fuel - Filter", "Lubrication - Filters/Strainer",
-                "Lubrication - Oil Pan", "Engine - Crankshaft - Seal", "Engine - Crankshaft",
-                "Cylinder head", "Exahust - Muffler", "Inlet - Air cleaner housing", "nan",
-                "Engine Assembly -", "Engine - Hydraulic - Hoses/piping/gasket", "Inlet - Aftercooler - Core",
-                "Cylinder block - Cover", "Fuel - Priming pump", "Engine Assembly - Charged Air System",
-                "Valve cover - Rocker Arm", "Camshaft", "Fuel - Hoses/lines/gaskets", "Cylinder head - Valve Assembly",
-                "Fuel - Tank", "Inlet - Piping", "Engine - Cables/Harness/Wiring", "ECM -", "Fuel - Transfer pump",
-                "Piston", "Valve cover - Pushrod", "Flywheel", "Exhaust - Piping", "Engine Fluids - Engine Lube Oil System",
-                "Engine -  Aftercooler - Heat exchanger", "Engine Fluids - Engine Water System",
-                "Inlet - Emergency shutoff valves", "Engine - Gear - Accessory drive", "Engine Fluids - Engine Fuel System",
-                "Engine Assembly - Exhaust", "Vibration damper", "Camshaft - Bearing", "Exhaust - Muffler",
-                "Engine - Crankshaft - Bearing", "Hydraulic Starter -", "Engine - Gear - Idler", "Engine - Mounting",
-                "Engine - Hydraulic - Quick Disconects", "Tractor - Hydraulic - Pump", "Valve cover", "Fuel - Valves"]
+all_classes = ["label1","label2","label3","label4","label5","label6"]
 
-filter_classes = ["Turbo", "Fuel - Injectors", "Cylinder block - Liner",
-                "Engine - Gaskets", "Exahust - Piping", "Engine - Control - ECM",
-                "Engine - Hydraulic - Starter", "Lubrication - Pump", "Engine - Sensors/switches",
-                "Exhaust - Manifold", "Cylinder block", "Fuel - Filter", "Lubrication - Filters/Strainer",
-                "Lubrication - Oil Pan", "Engine - Crankshaft - Seal"]
+filter_classes = ["label1","label3","label6",]
 
 ## filter data by failure type, this will also filter out all the data (failure+healthy)
 ## from that failure class
 #data = data.filter(data.SubComponent.isin(filter_classes))
 
 # Filter failure folder, before failure data only, for the selected classes
-data = data.where((col("SubComponent").isin(filter_classes)) & (sf.col('failed_folder') == 1) & (sf.col('failutc').cast(LongType()) >= sf.col('AcqTime')))
+data = data.where((col("c6").isin(filter_classes)) & (sf.col('c2') == 1) & (sf.col('c7').cast(LongType()) >= sf.col('c3')))
 #data = data.where((data.SubComponent.isin(filter_classes)) & (data.failed_folder == 1)& (data.failutc.cast(LongType()) >= data.AcqTime))
 
 data = data.withColumn('failure_class', sf.when((data.failutc.cast(LongType()) <= (86400 + data.AcqTime)), data.SubComponent).otherwise("all_good"))
 
-num_col_toUse_names= ["WellEventID", "WellStartTime","WellEndTime","AcqTime","PumpID","DischargePressure",
-                      "PumpRate","ThrottleAct","EnginePercentLoad","EngineBoostPressure","EngineFuelPressure",
-                      "EngineFuelRate","EngineOilPressure","EngineCoolantTemp","EngineVoltage",
-                      "TransLockupPressure","TransConverterTemp","TransSumpTemp","TransMainOilPressure",
-                      "TransFilterInPressure","TransFilterOutPressure","PowerEndOilTemp","PowerEndOilPressure",
-                      "PowerEndStrokeCount","FluidEndSuctionPressure","FluidEndSuctionDampChargePressure",
-                      "SensorFailures","WarningsShutdowns","EngineHours","Gear","AutoShutdownControl",
-                      "DischargePSIRange","EngineType","PowerEndType","TransmissionType","FluidEndSize",
-                      "ThrottleSetpoint","PressureSetpoint"]
-char_col_toUse_names  = ["WellName","Client","MobileHubID","MTID","FracCATVanSerial", "Crew", "InstantIdle",
-                         "LockupInhibit","EngineWarmup","TransmissionWarmup","PressureTest","PrimeUp","PumpBrake",
-                         "EngineGARState"]
+num_col_toUse_names= ["c1","c2","c3","c7","c8"]
+char_col_toUse_names  = ["c4","c5","c6"]
 bool_col_toUse_names  = []
 class_label_name = "failure_class"
 
@@ -237,6 +160,6 @@ selected = prediction.select("predictedLabel", class_label_name, "features")
 selected.show(5)
 
 if do_one_hot:
-    prediction.write.format("com.databricks.spark.csv").option("header", "true").save("gs://abhi-ml/data/first_prediction/onehot")
+    prediction.write.format("com.databricks.spark.csv").option("header", "true").save("gs://bucket/path1")
 elif do_vectorIndexer:
-    prediction.write.format("com.databricks.spark.csv").option("header", "true").save("gs://abhi-ml/data/first_prediction/vectorIndexer")
+    prediction.write.format("com.databricks.spark.csv").option("header", "true").save("gs://bucket/path2")
