@@ -1,4 +1,4 @@
-# A know issue: https://stackoverflow.com/questions/44403010/pyspak-ml-vectorindexer-not-working-the-way-it-is-supposed-to-work
+# A known issue: https://stackoverflow.com/questions/44403010/pyspak-ml-vectorindexer-not-working-the-way-it-is-supposed-to-work
 
 import os
 from os import listdir
